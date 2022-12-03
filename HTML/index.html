@@ -1,0 +1,128 @@
+{% extends 'site/base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %} {% translate "Control Panel - RC CAR" %}{% endblock title %}
+{% block content %}
+
+<!-- HOME - Begin Page Content - 2022-01-11 -->
+<div class="section-header container-fluid py-3 pt-5 text-center" style="height: 1200px;">
+
+	<!-- SECTION - Introduction -->
+	<div class="container-fuild pt-4 pb-5">
+
+		<!-- TITLE -->
+		<h3>{% translate "Control Panel" %}</h3>
+		<p id="status" class="mb-5"></p> <!-- AFFICHE LE STATUT ENTRE LE CLIENT ET LE SERVEUR WEBSOCKET -->
+
+		<!-- BOUTONS DES  MODES DE CONDUITE ET AFFICHAGE DU MODE DE CONDUITE ACTUELLE -->
+		<div class="row">
+			
+			<div class="col">
+				<p id="current_driving_mode">{% translate "Mode: NONE" %}</p> <!-- AFFICHAGE DU MODE DE CONDUITE ACTUELLE -->
+				<button type="button" class="btn btn-success center-block mb-2" id="DRIVE_MODE_ECO" onclick="send_command(this.id)">Eco</button>
+				<button type="button" class="btn btn-dark center-block mb-2" id="DRIVE_MODE_NORMAL" onclick="send_command(this.id)">Normal</button>
+				<button type="button" class="btn btn-dark center-block mb-2" id="DRIVE_MODE_SPORT" onclick="send_command(this.id)">Sport</button>
+				<button type="button" class="btn btn-danger center-block mb-2" id="DRIVE_MODE_TYPER" onclick="send_command(this.id)">Type R</button>
+			</div>
+
+
+		</div>
+
+		<!-- PARTIE JOYSTICK -->
+		<div id="joystick_row">
+			<!-- AFFICHAGE DES DONNÉES DES JOYTSTICKS -->
+			<div class="row justify-content-md-center pt-2">
+
+				<div class="col col-lg-2 justify-content-center d-flex">
+					<p id="joystick_direction" style="color: rgb(255, 255, 255);">0°</p>
+				</div>
+
+				
+				<div class="col col-lg-2 d-flex justify-content-center">
+					<p id="joystick_accelerator" style="color: rgb(255, 255, 255);">0%</p>
+				</div>
+
+			</div>
+
+			
+			<div class="row justify-content-md-center pt-2">
+				<!-- JOYSTICK POUR LA DIRECTION -->
+				<div class="col col-lg-2 justify-content-center d-flex">
+					
+					<div style="width: 128px; position: relative;">
+						
+						<img src="{% static 'site/img/joystick-base.png' %}"/>
+		
+						<div id="direction_stick" style="position: absolute; left:32px; top:32px;">
+							<img src="{% static 'site/img/joystick-green.png' %}"/>	
+						</div>
+		
+					</div>
+				</div>
+
+				<!-- JOYSTICK POUR LA PUISSANCE DU MOTEUR -->
+				<div class="col col-lg-2 d-flex justify-content-center">
+					
+					<div style="width: 128px; position: relative;">
+						
+						<img src="{% static 'site/img/joystick-base.png' %}"/>
+		
+						<div id="motor_stick" style="position: absolute; left:32px; top:32px;">
+							<img src="{% static 'site/img/joystick-blue.png' %}"/>		
+						</div>
+		
+					</div>
+					
+				</div>
+
+			</div>
+		</div>
+		<!-- FIN PARTIE JOYSTICK -->
+
+		<!-- PARTIE FLÈCHES DU CLAVIER -->
+		<div id="arrow_row" class="justify-content-md-center pt-4">
+
+			<p>{% translate "Real time tracking" %}</p>
+			<p class="text-muted">{% translate "Use arrow keys on your keyboard to control the car" %}</p>
+
+			<div class="keys">
+
+				<div id="arrow_up" class="up arr">
+					<i class="fa fa-arrow-up"></i>
+				</div>
+
+				<br/>
+
+				<div id="arrow_left" class="left arr">
+					<i class="fa fa-arrow-left"></i>
+				</div>  
+
+				<div id="arrow_down" class="down arr">
+					<i class="fa fa-arrow-down"></i>
+				</div>
+
+				<div id="arrow_right" class="right arr">
+					<i class="fa fa-arrow-right"></i>
+				</div>
+
+			</div>
+
+		</div>
+		<!-- FIN PARTIE FLÈCHES DU CLAVIER -->
+
+		
+	</div>
+
+</div>
+
+
+
+{% endblock content %}
+
+{% block additional_scripts %}
+<script type="text/javascript" src="{% static 'site/js/control_handler.js' %}"></script>
+<script type="text/javascript" src="{% static 'site/js/device_handler.js' %}"></script>
+{% endblock additional_scripts %}
